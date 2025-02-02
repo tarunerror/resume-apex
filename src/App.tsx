@@ -15,13 +15,15 @@ import { Monitor, Smartphone, Maximize2, Minimize2 } from 'lucide-react';
 import { useResumeStore } from './store/useResumeStore';
 import { analyzeResume } from './services/deepseek';
 import clsx from 'clsx';
+import { PaywallModal } from './components/PaywallModal';
 
 function App() {
   const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
   const [activeTab, setActiveTab] = useState('personal');
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [splitSizes, setSplitSizes] = useState([40, 60]);
-  const { resumeData, setAnalysis, setIsAnalyzing, analysis, isAnalyzing } = useResumeStore();
+  const { resumeData, setAnalysis, setIsAnalyzing, analysis, isAnalyzing, exportsUsed, incrementExport } = useResumeStore();
+  const [showPaywall, setShowPaywall] = useState(false);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(async () => {
@@ -158,6 +160,16 @@ function App() {
           onClose={() => setShowOnboarding(false)}
           onStartTrial={() => {
             setShowOnboarding(false);
+          }}
+        />
+      )}
+
+      {showPaywall && (
+        <PaywallModal
+          onClose={() => setShowPaywall(false)}
+          onSuccess={() => {
+            setShowPaywall(false);
+            useResumeStore.setState({ exportsUsed: 0 });
           }}
         />
       )}

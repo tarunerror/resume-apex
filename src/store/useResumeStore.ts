@@ -6,6 +6,8 @@ interface ResumeStore {
   resumeData: ResumeData;
   analysis: ResumeAnalysis | null;
   isAnalyzing: boolean;
+  exportsUsed: number;
+  incrementExport: () => void;
   updatePersonalInfo: (info: Partial<ResumeData['personalInfo']>) => void;
   updateSummary: (summary: string) => void;
   addExperience: (experience: Omit<ResumeData['experience'][0], 'id'>) => void;
@@ -37,6 +39,8 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   resumeData: initialResumeData,
   analysis: null,
   isAnalyzing: false,
+  exportsUsed: 0,
+  incrementExport: () => set((state) => ({ exportsUsed: state.exportsUsed + 1 })),
   updatePersonalInfo: (info) =>
     set((state) => ({
       resumeData: {
