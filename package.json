@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^2.4.0",
+    "appwrite": "^13.0.1",
     "clsx": "^2.1.0",
     "docx": "^8.5.0",
     "file-saver": "^2.0.5",

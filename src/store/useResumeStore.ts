@@ -6,8 +6,8 @@ interface ResumeStore {
   resumeData: ResumeData;
   analysis: ResumeAnalysis | null;
   isAnalyzing: boolean;
-  exportsUsed: number;
-  incrementExport: () => void;
+  isPremium: boolean;
+  exportCount: number;
   updatePersonalInfo: (info: Partial<ResumeData['personalInfo']>) => void;
   updateSummary: (summary: string) => void;
   addExperience: (experience: Omit<ResumeData['experience'][0], 'id'>) => void;
@@ -19,6 +19,8 @@ interface ResumeStore {
   removeSkill: (skill: string) => void;
   setAnalysis: (analysis: ResumeAnalysis | null) => void;
   setIsAnalyzing: (isAnalyzing: boolean) => void;
+  incrementExportCount: () => void;
+  setPremium: (isPremium: boolean) => void;
 }
 
 const initialResumeData: ResumeData = {
@@ -39,8 +41,8 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   resumeData: initialResumeData,
   analysis: null,
   isAnalyzing: false,
-  exportsUsed: 0,
-  incrementExport: () => set((state) => ({ exportsUsed: state.exportsUsed + 1 })),
+  isPremium: false,
+  exportCount: 0,
   updatePersonalInfo: (info) =>
     set((state) => ({
       resumeData: {
@@ -111,4 +113,6 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     })),
   setAnalysis: (analysis) => set({ analysis }),
   setIsAnalyzing: (isAnalyzing) => set({ isAnalyzing }),
+  incrementExportCount: () => set((state) => ({ exportCount: state.exportCount + 1 })),
+  setPremium: (isPremium) => set({ isPremium }),
 }));
